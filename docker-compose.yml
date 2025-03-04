@@ -1,22 +1,22 @@
 services:
-  mysql:
+  tenant-service-mysql:
     image: mysql:8.0               # Use the latest MySQL image
-    container_name: mysql_local       # Name the container for easy identification
+    container_name: tenant_service_mysql       # Name the container for easy identification
     ports:
       - "3306:3306"                   # Map MySQL's default port
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword     # Root user password
-      MYSQL_DATABASE: planify_dev            # Default database to be created
-      MYSQL_USER: dev_user                   # Development user
-      MYSQL_PASSWORD: dev_password           # Password for the development user
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: tenant_db
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - planify_mysql_data:/var/lib/mysql      # Persistent storage for data
+      - tenant_service_mysql_data:/var/lib/mysql      # Persistent storage for data
     networks:
       - planify_network
 
 volumes:
-  planify_mysql_data:                         # Define a Docker volume for MySQL data persistence
-    name: planify_mysql_data                  # Name the volume for easy identification
+  tenant_service_mysql_data:                         # Define a Docker volume for MySQL data persistence
+    name: tenant_service_mysql_data                  # Name the volume for easy identification
 
 networks:
   planify_network:                    # Custom network for isolation
